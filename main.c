@@ -197,4 +197,5 @@ static void print_gl_info(void) {
     fprintf(stdout, "Renderer:   %s\n", renderer ? renderer : "?");
     fprintf(stdout, "Profile:    %s\n", profile_str);
     fprintf(stdout, "Extensions: %d\n", n_ext);
+    fprintf(stdout, "------------------------------------------------\n");
 }
