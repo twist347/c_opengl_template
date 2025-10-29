@@ -172,7 +172,7 @@ static void process_input(GLFWwindow *window) {
 }
 
 static void print_gl_info(void) {
-    GLint major = 0, minor = 0, profile = 0, n_ext = 0, samples = 0;
+    GLint major = 0, minor = 0, profile = 0, n_ext = 0;
     const char *vendor = (const char *) glGetString(GL_VENDOR);
     const char *renderer = (const char *) glGetString(GL_RENDERER);
     const char *version = (const char *) glGetString(GL_VERSION);
@@ -182,7 +182,6 @@ static void print_gl_info(void) {
     glGetIntegerv(GL_MINOR_VERSION, &minor);
     glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &profile);
     glGetIntegerv(GL_NUM_EXTENSIONS, &n_ext);
-    glGetIntegerv(GL_SAMPLES, &samples);
 
     const char *profile_str =
             profile & GL_CONTEXT_CORE_PROFILE_BIT
