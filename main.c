@@ -196,4 +196,5 @@ static void print_gl_info(void) {
     fprintf(stdout, "Vendor:     %s\n", vendor ? vendor : "?");
     fprintf(stdout, "Renderer:   %s\n", renderer ? renderer : "?");
     fprintf(stdout, "Profile:    %s\n", profile_str);
+    fprintf(stdout, "Extensions: %d\n", n_ext);
 }
