@@ -5,7 +5,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
-#include "util/ogl_util.h"
+#include "ogl_util.h"
 
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
@@ -21,6 +21,7 @@
 
 typedef struct {
     GLfloat pos[3];
+    GLfloat color[3];
 } vertex_t;
 
 static void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -73,8 +74,8 @@ int main(void) {
 
     shader_program = build_program(vertex_shader_source, fragment_shader_source);
     if (!shader_program) {
-        free(vertex_shader_source);
         free(fragment_shader_source);
+        free(vertex_shader_source);
         exit_code = EXIT_FAILURE;
         goto cleanup;
     }
@@ -83,9 +84,9 @@ int main(void) {
     free(vertex_shader_source);
 
     const vertex_t vertices[] = {
-        {.pos = {-0.5f, -0.5f, 0.f}}, // left
-        {.pos = {0.5f, -0.5f, 0.f}},  // right
-        {.pos = {0.f, 0.5f, 0.f}}     // top
+        {.pos = {-0.5f, -0.5f, 0.f}, .color = {1.f, 0.f, 0.f}}, // left
+        {.pos = {0.5f, -0.5f, 0.f}, .color = {0.f, 1.f, 0.f}},  // right
+        {.pos = {0.f, 0.5f, 0.f}, .color = {0.f, 0.f, 1.f}}     // top
     };
 
     GLuint VBO, VAO;
@@ -96,13 +97,17 @@ int main(void) {
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex_t), (void *) offsetof(vertex_t, pos));
     glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertex_t), (void *) offsetof(vertex_t, color));
+    glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    glClearColor(1.f, 0.f, 0.f, 1.f);
+    glClearColor(1.f, 1.f, 1.f, 1.f);
 
     while (!glfwWindowShouldClose(window)) {
         process_input(window);
@@ -282,9 +287,6 @@ static void render(GLuint shader_program, GLuint VAO, GLFWwindow *window) {
     glUseProgram(shader_program);
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
-
-    glBindVertexArray(0);
-    glUseProgram(0);
 
     glfwSwapBuffers(window);
 }
